@@ -1,8 +1,10 @@
 import java.io.File;
 
+import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
 import javax.sound.sampled.FloatControl;
 
 public class AudioPlayer {
@@ -14,28 +16,36 @@ public class AudioPlayer {
 		
 			AudioInputStream audioInputStream =
 		        AudioSystem.getAudioInputStream( new File("test.wav"));
-		    Clip clip = AudioSystem.getClip();
+			AudioFormat format = audioInputStream.getFormat();
+	        DataLine.Info info = new DataLine.Info(Clip.class, format);
+	        Clip clip = (Clip)AudioSystem.getLine(info);
 		    clip.open(audioInputStream);
 		    long sec = clip.getMicrosecondLength();
 		    long millisec = sec/1000;
 		    
 		    AudioInputStream audioInputStream1 =
 			        AudioSystem.getAudioInputStream( new File("test1.wav"));
-			Clip clip1 = AudioSystem.getClip();
+		    AudioFormat format1 = audioInputStream1.getFormat();
+	        DataLine.Info info1 = new DataLine.Info(Clip.class, format1);
+	        Clip clip1 = (Clip)AudioSystem.getLine(info1);
 			clip1.open(audioInputStream1);
 			long sec1 = clip1.getMicrosecondLength();
 			long millisec1 = sec1/1000;
 			
 			AudioInputStream audioInputStream2 =
 				    AudioSystem.getAudioInputStream( new File("test2.wav"));
-			Clip clip2 = AudioSystem.getClip();
+			AudioFormat format2 = audioInputStream2.getFormat();
+	        DataLine.Info info2 = new DataLine.Info(Clip.class, format2);
+	        Clip clip2 = (Clip)AudioSystem.getLine(info2);
 			clip2.open(audioInputStream2);
 			long sec2 = clip2.getMicrosecondLength();
 			long millisec2 = sec2/1000;
 				    
 			AudioInputStream audioInputStream3 =
 				AudioSystem.getAudioInputStream( new File("test3.wav"));
-			Clip clip3 = AudioSystem.getClip();
+			AudioFormat format3 = audioInputStream3.getFormat();
+	        DataLine.Info info3 = new DataLine.Info(Clip.class, format3);
+	        Clip clip3 = (Clip)AudioSystem.getLine(info3);
 			clip3.open(audioInputStream3);
 			long sec3 = clip3.getMicrosecondLength();
 			long millisec3 = sec3/1000;
