@@ -122,7 +122,7 @@ public class AudioPlayer {
 	
 	public static void main (String[] args){
 		
-		playAudio(true, false, true, true, 5.0f, 10.0f, 0.0f, -5.0f);
+		playAudio(true, false, true, true, -50.0f, -10.0f, 0.0f, -5.0f);
 		
 		
 	}
