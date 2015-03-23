@@ -53,28 +53,24 @@ public class AudioPlayer {
 			if (cup){
 	    		FloatControl gainControl = 
 		    		    (FloatControl) clip.getControl(FloatControl.Type.VOLUME);
-	    		System.out.println("Vol 1" + gainControl.getValue()+volume);
 		    		gainControl.setValue(gainControl.getValue()+volume);
 			}
 			
 			if (cup1){
 	    		FloatControl gainControl1 = 
 		    		    (FloatControl) clip1.getControl(FloatControl.Type.VOLUME);
-	    		System.out.println("Vol 2" + gainControl1.getValue()+volume);
 		    		gainControl1.setValue(gainControl1.getValue()+volume1);
 			}
 			
 			if (cup2){
 	    		FloatControl gainControl2 = 
 		    		    (FloatControl) clip2.getControl(FloatControl.Type.VOLUME);
-	    		System.out.println("Vol 3" + gainControl2.getValue()+volume);
 		    		gainControl2.setValue(gainControl2.getValue()+volume2);
 			}
 			
 			if (cup3){
 	    		FloatControl gainControl3 = 
 		    		    (FloatControl) clip3.getControl(FloatControl.Type.VOLUME);
-	    		System.out.println("Vol 4" + gainControl3.getValue()+volume);
 		    		gainControl3.setValue(gainControl3.getValue()+volume3);
 			}
 			
