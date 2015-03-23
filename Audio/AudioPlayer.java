@@ -6,7 +6,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.FloatControl;
-import org.classpath.icedtea.pulseaudio.PulseAudioVolumeControl;
 
 public class AudioPlayer {
 	
