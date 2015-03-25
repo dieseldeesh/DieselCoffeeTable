@@ -2,6 +2,7 @@ import toxi.geom.*;
 import peasy.*;
 import ddf.minim.analysis.*;
 import ddf.minim.*;
+import sound.*;
 
 PeasyCam cam;
 Minim minim;  
