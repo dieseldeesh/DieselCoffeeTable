@@ -50,31 +50,42 @@ public class AudioPlayer {
 			long sec3 = clip3.getMicrosecondLength();
 			long millisec3 = sec3/1000;
 			
+			if (cup){
+	    		FloatControl gainControl = 
+		    		    (FloatControl) clip.getControl(FloatControl.Type.VOLUME);
+		    		gainControl.setValue(gainControl.getValue()+volume);
+			}
+			
+			if (cup1){
+	    		FloatControl gainControl1 = 
+		    		    (FloatControl) clip1.getControl(FloatControl.Type.VOLUME);
+		    		gainControl1.setValue(gainControl1.getValue()+volume1);
+			}
+			
+			if (cup2){
+	    		FloatControl gainControl2 = 
+		    		    (FloatControl) clip2.getControl(FloatControl.Type.VOLUME);
+		    		gainControl2.setValue(gainControl2.getValue()+volume2);
+			}
+			
+			if (cup3){
+	    		FloatControl gainControl3 = 
+		    		    (FloatControl) clip3.getControl(FloatControl.Type.VOLUME);
+		    		gainControl3.setValue(gainControl3.getValue()+volume3);
+			}
 			
 			while (true){
 				
 		    	if (cup){
-		    		FloatControl gainControl = 
-			    		    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-			    		gainControl.setValue(volume);
 		    		clip.start();
 		    	}
 		    	if (cup1){
-		    		FloatControl gainControl1 = 
-			    		    (FloatControl) clip1.getControl(FloatControl.Type.MASTER_GAIN);
-			    		gainControl1.setValue(volume1);
 		    		clip1.start();
 		    	}
 		    	if (cup2){
-		    		FloatControl gainControl2 = 
-			    		    (FloatControl) clip2.getControl(FloatControl.Type.MASTER_GAIN);
-			    		gainControl2.setValue(volume2);
 		    		clip2.start();
 		    	}
 		    	if (cup3){
-		    		FloatControl gainControl3 = 
-			    		    (FloatControl) clip3.getControl(FloatControl.Type.MASTER_GAIN);
-			    		gainControl3.setValue(volume3);
 		    		clip3.start();
 		    	}
 		    	
@@ -107,7 +118,7 @@ public class AudioPlayer {
 	
 	public static void main (String[] args){
 		
-		playAudio(true, false, true, true, -5.0f, 10.0f, 0.0f, 5.0f);
+		playAudio(true, false, true, true, -50.0f, -10.0f, 0.0f, -5.0f);
 		
 		
 	}
