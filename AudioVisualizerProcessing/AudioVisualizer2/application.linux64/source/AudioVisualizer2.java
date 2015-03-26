@@ -161,7 +161,7 @@ class Pelo
 }
 
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "--full-screen", "--bgcolor=#666666", "--hide-stop", "AudioVisualizer2" };
+    String[] appletArgs = new String[] { "AudioVisualizer2" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {
