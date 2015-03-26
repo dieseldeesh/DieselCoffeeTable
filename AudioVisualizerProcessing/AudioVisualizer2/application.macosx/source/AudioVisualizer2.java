@@ -1,5 +1,24 @@
-import ddf.minim.analysis.*;
-import ddf.minim.*;
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import ddf.minim.analysis.*; 
+import ddf.minim.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class AudioVisualizer2 extends PApplet {
+
+
+
 
 AudioInput in;
 Minim minim;  
@@ -9,16 +28,16 @@ FFT fft;
 
 int cuantos = 16000;
 Pelo[] lista;
-float radio = 200, prev = -1, diffMax = 0.2;
-float ANGLE2 = 69.9004, ANGLE3 = 0;
+float radio = 200, prev = -1, diffMax = 0.2f;
+float ANGLE2 = 69.9004f, ANGLE3 = 0;
 int r=100, g=0, b=0;
 float[] dVals = new float[7];
 boolean rT=true, gT=false, bT=false;
 
-void setup() {
+public void setup() {
   size(1024, 768, P3D);
 
-  radio = height/3.5;
+  radio = height/3.5f;
 
   lista = new Pelo[cuantos];
   for (int i = 0; i < lista.length; i++) {
@@ -31,7 +50,7 @@ void setup() {
   fft.linAverages(12);
 }
 
-void draw() {
+public void draw() {
   background(0);
   fft.forward(in.left);
 
@@ -96,26 +115,26 @@ class Pelo
 {
   float z = random(-radio, radio);
   float phi = random(TWO_PI);
-  float largo = random(1.15, 1.2);
+  float largo = random(1.15f, 1.2f);
   float theta = asin(z/radio);
 
   Pelo() { // what's wrong with a constructor here
     z = random(-radio, radio);
     phi = random(TWO_PI);
-    largo = random(1.1, 1.15);
+    largo = random(1.1f, 1.15f);
     theta = asin(z/radio);
   }
 
-  void dibujar(int r, int g, int b, float multi) {
+  public void dibujar(int r, int g, int b, float multi) {
     if(multi>1) {
       multi*=largo;
     } else {
       multi=largo;
     }
-    if(multi>1.8) multi=1.8;
+    if(multi>1.8f) multi=1.8f;
 
-    float off = (noise(millis() * 0.0005, sin(phi))-0.5) * 0.3;
-    float offb = (noise(millis() * 0.0007, sin(z) * 0.01)-0.5) * 0.3;
+    float off = (noise(millis() * 0.0005f, sin(phi))-0.5f) * 0.3f;
+    float offb = (noise(millis() * 0.0007f, sin(z) * 0.01f)-0.5f) * 0.3f;
 
     float thetaff = theta+off;
     float phff = phi+offb;
@@ -141,3 +160,12 @@ class Pelo
   }
 }
 
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "--full-screen", "--bgcolor=#666666", "--hide-stop", "AudioVisualizer2" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
+  }
+}
