@@ -28,7 +28,7 @@ void setup() {
   minim = new Minim(this);
   in = minim.getLineIn();
   fft = new FFT( in.left.size(), 441000);
-  fft.linAverages(12);
+  fft.linAverages(8);
 }
 
 void draw() {
@@ -40,20 +40,8 @@ void draw() {
     dVals[i]=fft.getAvg(i)/20;
   }
   
-  float diff = dVals[0]-prev;
-  boolean pos = true;
-  if(diff<0) {
-    pos = false;
-    diff = 0-diff;
-  }
-  
-  if(prev>0 && diff>diffMax) {
-    if(pos) dVals[0]=prev+diffMax;
-    else dVals[0]=prev-diffMax;
-  }
-  prev = dVals[0];
-  if (dVals[0]>1.5) dVals[0]=1.5;
-  if (dVals[0]<1.05) dVals[0]=1.05;
+  // if (dVals[0]>1.5) dVals[0]=1.5;
+  // if (dVals[0]<1.05) dVals[0]=1.05;
 
   if (rT) {
     r += fft.getAvg(1);
@@ -98,7 +86,7 @@ void draw() {
   sphere(radio);
 
   for (int i = 0; i < lista.length; i++) {
-    lista[i].dibujar(r,g,b,dVals[0]);
+    lista[i].dibujar(r,g,b,dVals[0]*2);
   }
 
 }
@@ -108,11 +96,13 @@ class Pelo
 {
   float z = random(-radio, radio);
   float phi = random(TWO_PI);
+  float largo = random(1.15, 1.2);
   float theta = asin(z/radio);
 
   Pelo() { // what's wrong with a constructor here
     z = random(-radio, radio);
     phi = random(TWO_PI);
+    largo = random(1.15, 1.2);
     theta = asin(z/radio);
   }
 
@@ -120,7 +110,13 @@ class Pelo
 
     float off = (noise(millis() * 0.0005, sin(phi))-0.5) * 0.3;
     float offb = (noise(millis() * 0.0007, sin(z) * 0.01)-0.5) * 0.3;
-
+    
+    if(multi<1) multi=1;
+    
+    multi = largo*multi;
+    
+    if(multi>3) multi=3;
+    
     float thetaff = theta+off;
     float phff = phi+offb;
     float x = radio * cos(theta) * cos(phi);
@@ -137,7 +133,7 @@ class Pelo
 
     strokeWeight(1);
     beginShape(LINES);
-    stroke(r,g,b);
+    stroke(0);
     vertex(x, y, z);
     stroke(r,g,b);
     vertex(xb, yb, zb);
