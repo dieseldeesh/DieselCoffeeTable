@@ -2,6 +2,7 @@ import wave
 import pyaudio
 import threading
 import time
+import numpy
 #!usr/bin/env python  
 #coding=utf-8  
 
@@ -32,18 +33,21 @@ def play(fname):
   #read data 
   while(1): 
     if(getCup(fname)):
-      f = wave.open(r"/Users/anuj/Code/18549/DieselCoffeeTable/Audio/"+fname,"rb")  
+      f = wave.open(fname,"rb")  
 
       stream = p.open(format = p.get_format_from_width(f.getsampwidth()),  
                       channels = f.getnchannels(),  
                       rate = f.getframerate(),  
                     output = True) 
       data = f.readframes(chunk)  
+      decoded = numpy.fromstring(signal, 'Float32')
+      newsignal = decoded * 3.1623
+      EncodeAgain = pack("%df"%(len(newsignal)), *list(newsignal))
 
       #paly stream  
-      while data != '':  
-          stream.write(data)  
-          data = f.readframes(chunk)  
+      while EncodeAgain != '':  
+          stream.write(EncodeAgain)  
+          EncodeAgain = f.readframes(chunk)
       
       stream.stop_stream()  
       stream.close()
