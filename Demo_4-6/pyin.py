@@ -5,6 +5,7 @@
 import pyaudio
 import struct
 import math
+import numpy as np
 
 INITIAL_TAP_THRESHOLD = 0.010
 FORMAT = pyaudio.paInt16 
@@ -36,6 +37,15 @@ def get_rms( block ):
     format = "%dh"%(count)
     shorts = struct.unpack( format, block )
 
+    # x = np.fft.fft(shorts,512)
+    # print "x: ", x
+
+    # print "***********************"
+    # y = np.array(struct.unpack("%dh" % (count), block))
+    # x2 = np.fft.fft(y,512)
+    # print "x2: ", x2
+
+
     # iterate over the block.
     sum_squares = 0.0
     for sample in shorts:
@@ -44,7 +54,7 @@ def get_rms( block ):
         n = sample * SHORT_NORMALIZE
         sum_squares += n*n
 
-    return math.sqrt( sum_squares / count )
+    return math.sqrt( sum_squares / count ), shorts
 
 class TapTester(object):
     def __init__(self):
@@ -100,8 +110,11 @@ class TapTester(object):
             self.noisycount = 1
             return
 
-        amplitude = get_rms( block )
+        amplitude, shorts = get_rms( block )
         amp = amplitude
+        # print "amp: ",amp
+        fft_block = np.fft.fft(shorts,512)
+
         #if amplitude > self.tap_threshold:
 #            # noisy block
 #            self.quietcount = 0
@@ -121,9 +134,10 @@ class TapTester(object):
 #                # turn up the sensitivity
 #                self.tap_threshold *= 0.9
 
-        return amplitude
+        return amplitude, fft_block
 
 # if __name__ == "__main__":
-
+#     tt = TapTester()
 #     for i in range(10):
 #         tt.listen()
+

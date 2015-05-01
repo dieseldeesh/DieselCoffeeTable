@@ -3,11 +3,14 @@
 import pyin
 import time
 import threading
-
+import numpy as np
 from Tkinter import *
 
 tt = pyin.TapTester()
 amp = 0
+fft_block = []
+mag = 0
+
 def mousePressed(event):
     redrawAll()
 
@@ -15,20 +18,32 @@ def keyPressed(event):
     redrawAll()
 
 def timerFired():
-    global amp
-    print "amp: ", amp
-    delay = 200 # milliseconds
+    global amp, fft_block, mag
+    # print "amp: ", amp
+    
+    # if(len(fft_block) > 0):
+    #     x = np.absolute(fft_block)
+    #     y = sum(x)/len(x)
+    #     mag = y
+    #     # print "y: ",y
+
+    delay = 5 # milliseconds
     redrawAll()
     canvas.after(delay, timerFired) # pause, then call timerFired again
 
 def redrawAll():
+    global mag,amp
     canvas.delete(ALL)
-    canvas.create_line(0, 0, 200, amp*1000)
+    cx = canvas.data.cx
+    cy = canvas.data.cy
+    r = amp*1000
+    canvas.create_oval(cx-r, cy-r, cx+r, cy+r, fill="cyan")
 
 def listen():
-    global amp
+    global amp, fft_block
     while(True):
-        amp = tt.listen()
+        amp, fft_block = tt.listen()
+
         # time.sleep(10)
 
 
@@ -41,11 +56,13 @@ def run():
     # create the root and the canvas
     global canvas
     root = Tk()
-    canvas = Canvas(root, width=300, height=200)
+    canvas = Canvas(root, width=1000, height=1000)
     canvas.pack()
     # Set up canvas data and call init
     class Struct: pass
     canvas.data = Struct()
+    canvas.data.cx = 500
+    canvas.data.cy = 500
     init()
     # set up events
     root.bind("<Button-1>", mousePressed)
