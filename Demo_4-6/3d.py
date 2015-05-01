@@ -39,9 +39,9 @@ def display():
    glColor3f (1.0, 1.0, 1.0)
    glLoadIdentity ()             # clear the matrix 
    # viewing transformation 
-   glRotatef(0, 0, 0, amp*10.0 )
+   glRotatef(0, 0, 0, amp*100.0 )
    gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
-   glScalef (amp*30.0, amp*30.0, amp*30.0)      # modeling transformation 
+   glScalef (amp*300.0, amp*300.0, amp*300.0)      # modeling transformation 
    glutWireCube (1.0)
    glFlush ()
 
