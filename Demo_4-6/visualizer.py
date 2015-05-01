@@ -36,7 +36,7 @@ def redrawAll():
     canvas.delete(ALL)
     cx = canvas.data.cx
     cy = canvas.data.cy
-    r = amp*1000
+    r = amp*1000*4
     canvas.create_oval(cx-r, cy-r, cx+r, cy+r, fill="cyan")
 
 def listen():
