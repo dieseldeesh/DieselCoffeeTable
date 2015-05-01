@@ -112,7 +112,6 @@ class TapTester(object):
 
         amplitude, shorts = get_rms( block )
         amp = amplitude
-        # print "amp: ",amp
         fft_block = np.fft.fft(shorts,512)
 
         #if amplitude > self.tap_threshold:
