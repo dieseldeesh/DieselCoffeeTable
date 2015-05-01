@@ -20,6 +20,10 @@ UNDERSENSITIVE = 120.0/INPUT_BLOCK_TIME
 # if the noise was longer than this many blocks, it's not a 'tap'
 MAX_TAP_BLOCKS = 0.15/INPUT_BLOCK_TIME
 
+amp = 0
+def get_amp():
+	return amp
+
 def get_rms( block ):
     # RMS amplitude is defined as the square root of the 
     # mean over time of the square of the amplitude.
@@ -97,27 +101,29 @@ class TapTester(object):
             return
 
         amplitude = get_rms( block )
-        if amplitude > self.tap_threshold:
-            # noisy block
-            self.quietcount = 0
-            self.noisycount += 1
-            self.tapDetected();
-            if self.noisycount > OVERSENSITIVE:
-                # turn down the sensitivity
-                self.tap_threshold *= 1.1
-        else:            
-            # quiet block.
+        amp = amplitude
+        #if amplitude > self.tap_threshold:
+#            # noisy block
+#            self.quietcount = 0
+#            self.noisycount += 1
+#            self.tapDetected();
+#            if self.noisycount > OVERSENSITIVE:
+#                # turn down the sensitivity
+#                self.tap_threshold *= 1.1
+#        else:            
+#            # quiet block.#
 
-            if 1 <= self.noisycount <= MAX_TAP_BLOCKS:
-                self.tapDetected()
-            self.noisycount = 0
-            self.quietcount += 1
-            if self.quietcount > UNDERSENSITIVE:
-                # turn up the sensitivity
-                self.tap_threshold *= 0.9
+#            if 1 <= self.noisycount <= MAX_TAP_BLOCKS:
+#                self.tapDetected()
+#            self.noisycount = 0
+#            self.quietcount += 1
+#            if self.quietcount > UNDERSENSITIVE:
+#                # turn up the sensitivity
+#                self.tap_threshold *= 0.9
 
-if __name__ == "__main__":
-    tt = TapTester()
+        return amplitude
 
-    for i in range(1000):
-        tt.listen()
+# if __name__ == "__main__":
+
+#     for i in range(10):
+#         tt.listen()
