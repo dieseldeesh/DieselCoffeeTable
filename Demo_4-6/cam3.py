@@ -89,7 +89,7 @@ while(True):
     print "cups : ", cups
     # Display the resulting frame
     audio.setAllCups(cups)
-    cv2.imshow('frame',dilation)
+    cv2.imshow('frame',hsv)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
