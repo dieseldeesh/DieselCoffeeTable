@@ -8,11 +8,14 @@ import audio
 
 
 audio.initAll()
-cups = [0,0,1,0]
+cups = [0,0,0,1]
 audio.setAllCups(cups)
 time.sleep(2)
 cups = [1,0,0,0]
 audio.setAllCups(cups)
 time.sleep(2)
-cups = [1,0,1,0]
+cups = [1,0,0,1]
+audio.setAllCups(cups)
+time.sleep(2)
+cups = [1,0,1,1]
 audio.setAllCups(cups)
