@@ -8,6 +8,8 @@ import time
 import pyaudio  
 import wave  
 
+import sys
+
 #read audio in 1kb chunks
 chunk = 1024  
 p = pyaudio.PyAudio()  
@@ -101,19 +103,36 @@ def closeAll():
   print "closed all audio loops"
 
 
-# initAll()
-# setAllCups([1,1,1,1])
+initAll()
+setAllCups([1,1,1,1])
 
 
-# #testing code
-# time.sleep(5)
-# cup1 = 0
-# time.sleep(5)
-# cup2 = 0
-# time.sleep(5)
-# cup3 = 0
-# time.sleep(5)
-# cup4 = 0
-# closeAll()
-# print "killed all audio loops"
+
+#testing code
+time.sleep(5)
+cup1 = 0
+time.sleep(5)
+cup2 = 0
+time.sleep(5)
+cup3 = 0
+time.sleep(5)
+cup4 = 0
+
+# print "starting srv..."
+# while(True):
+#   c = sys.stdin.read(1)
+#   print "got: ", c
+#   if(c == 'q'):
+#     break
+#   if(c == 'a'):
+#     cup1 = not(cup1)
+#   if(c == 's'):
+#     cup2 = not(cup2)
+#   if(c == 'd'):
+#     cup3 = not(cup3)
+#   if(c == 'f'):
+#     cup4 = not(cup4)
+
+closeAll()
+print "killed all audio loops"
 
