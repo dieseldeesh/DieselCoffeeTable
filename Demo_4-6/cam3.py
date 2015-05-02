@@ -18,7 +18,7 @@ V_MAX = 103
 
 done = 0
 audio.initAll()
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(7)
 
 while(True):
     # Capture frame-by-frame
