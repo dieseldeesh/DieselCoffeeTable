@@ -18,7 +18,7 @@ V_MAX = 103
 
 done = 0
 audio.initAll()
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(7)
 counter = 0
 global cups
 cups = [0,0,0,0]
