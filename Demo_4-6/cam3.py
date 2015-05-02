@@ -3,7 +3,7 @@ import cv2
 import cv2.cv as cv
 import threading
 import sys
-import audioPyGame as audio
+import audio
 import time
 
 from Tkinter import *
