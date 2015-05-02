@@ -6,8 +6,8 @@ import pyaudio
 import wave 
 import audio
 
-
 audio.initAll()
+time.sleep(6)
 cups = [0,0,0,1]
 audio.setAllCups(cups)
 time.sleep(5)
