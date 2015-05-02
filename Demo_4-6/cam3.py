@@ -8,49 +8,15 @@ import audio
 from Tkinter import *
 
 #0 112 125 84 226 270
-H_MIN = 0
-S_MIN = 112
-V_MIN = 90
-H_MAX = 200
-S_MAX = 200
-V_MAX = 270
+H_MIN = 103
+S_MIN = 125
+V_MIN = 7
+H_MAX = 368
+S_MAX = 279
+V_MAX = 103
 
 done = 0
 audio.initAll()
-def adjust():
-  global H_MIN, S_MIN, V_MIN, H_MAX, S_MAX, V_MAX, done
-  while(done == 0):
-    c = sys.stdin.read(1)
-    "got: ",c
-    if(c == 'q'):
-      H_MIN +=1
-    if(c == 'a'):
-      H_MIN -=1
-    if(c == 'w'):
-      S_MIN +=1
-    if(c == 's'):
-      S_MIN -=1
-    if(c == 'e'):
-      V_MIN +=1
-    if(c == 'd'):
-      V_MIN -=1
-    if(c == 'r'):
-      H_MAX +=1
-    if(c == 'f'):
-      H_MAX -=1
-    if(c == 't'):
-      S_MAX +=1
-    if(c == 'g'):
-      S_MAX -=1
-    if(c == 'y'):
-      V_MAX +=1
-    if(c == 'h'):
-      V_MAX -=1
-    print H_MIN, S_MIN, V_MIN, H_MAX, S_MAX, V_MAX
-
-thr = threading.Thread(target=adjust, args=(), kwargs={})
-thr.start()
-
 cap = cv2.VideoCapture(0)
 
 while(True):
@@ -89,7 +55,7 @@ while(True):
     print "cups : ", cups
     # Display the resulting frame
     audio.setAllCups(cups)
-    cv2.imshow('frame',hsv)
+    cv2.imshow('frame',dilation)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
@@ -99,7 +65,4 @@ while(True):
 audio.closeAll()
 cap.release()
 cv2.destroyAllWindows()
-
-done = 1
-thr.join()
 
