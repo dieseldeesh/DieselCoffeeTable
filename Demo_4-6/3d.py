@@ -4,6 +4,7 @@ import threading
 import numpy as np
 import sys
 import random
+import math
 
 try:
   from OpenGL.GLUT import *
@@ -14,6 +15,8 @@ except:
 ERROR: PyOpenGL not installed properly.  
         '''
 shape = 0
+N=25
+RADIUS=1
 tt = pyin.TapTester()
 amp = 10
 fft_block = []
@@ -75,13 +78,31 @@ def changeColor():
        bT=False
   
 def shape0():
-   glutWireCube (1.0)
+   #glutWireCube (1.0)
+   glutWireSphere(1.0, 10,10)
 
 def shape1():
    glutSolidCube (1.0)
 
 def shape2():
-   glutWireSphere(1.0, 10,10)
+   #glutWireSphere(1.0, 10,10)
+   glColor3f(r*1.0,g*1.0,b*1.0)
+
+
+   xpts=[]
+   ypts=[]
+   for i in range(0,N):
+       xpts.append(RADIUS*math.sin(N*i/(math.pi)))
+       ypts.append(RADIUS*math.cos(N*i/(math.pi))) 
+
+   glBegin(GL_LINES)
+   for i in range(0,N):
+       for j in range(i,N):
+        for k in range(i,j):
+           glVertex2f(xpts[i],ypts[i])
+           glVertex2f(xpts[j],ypts[j])
+           glVertex2f(xpts[k],ypts[k])
+   glEnd()
 
 def shape3():
    glutSolidSphere(1.0, 10,10)
@@ -103,19 +124,17 @@ def display():
    glColor3f(r*1.0,g*1.0,b*1.0)
    #glutWireSphere(1.0, 10,10)
 
-   glLineWidth(2.5); 
-   glBegin(GL_LINES);
-   glVertex3f(0.0, 0.0, 0.0);
-   glVertex3f(15, 0, 0);
+   # glLineWidth(2.5); 
+   # glBegin(GL_LINES);
+   # glVertex3f(0.0, 0.0, 0.0);
+   # glVertex3f(15, 0, 0);
 
-   glVertex3f(0.0, 0.0, 0.0);
-   glVertex3f(0,3,15);
-   glEnd();
+   # glVertex3f(0.0, 0.0, 0.0);
+   # glVertex3f(0,3,15);
+   # glEnd();
    
-   # if amp <.11:
-   #   shape0()
-   # elif amp<.22:
-   #   shape2()
+
+   shape2()
    glFlush ()
 
 
