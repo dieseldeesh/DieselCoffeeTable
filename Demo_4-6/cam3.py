@@ -3,7 +3,7 @@ import cv2
 import cv2.cv as cv
 import threading
 import sys
-import audio
+import audioPyGame as audio
 import time
 
 from Tkinter import *
@@ -18,7 +18,7 @@ V_MAX = 103
 
 done = 0
 audio.initAll()
-cap = cv2.VideoCapture(7)
+cap = cv2.VideoCapture(0)
 
 while(True):
     # Capture frame-by-frame
