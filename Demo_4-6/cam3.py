@@ -20,18 +20,20 @@ done = 0
 audio.initAll()
 cap = cv2.VideoCapture(0)
 counter = 0
+global cups
 cups = [0,0,0,0]
 threhold = 2
-frequency = 5
+
 
 def averagePlay():
   global cups
+  print "cups in play : ", cups
   cupVals = [0,0,0,0]
 
-  cupVals[0] = 1 if  cups[0] > threhold else 0
-  cupVals[1] = 1 if  cups[1] > threhold else 0
-  cupVals[2] = 1 if  cups[2] > threhold else 0
-  cupVals[3] = 1 if  cups[3] > threhold else 0
+  cupVals[0] = 1 if  cups[0] >= threhold else 0
+  cupVals[1] = 1 if  cups[1] >= threhold else 0
+  cupVals[2] = 1 if  cups[2] >= threhold else 0
+  cupVals[3] = 1 if  cups[3] >= threhold else 0
  
   print "cupValues : ", cupVals
   audio.setAllCups(cupVals)
@@ -58,7 +60,7 @@ while(True):
       cnt = contours[0]
       M = cv2.moments(cnt)
       area = M['m00']
-      counter+=1
+      counter += 1
       if(area > 200):
         cx = int(M['m10']/M['m00'])
         cy = int(M['m01']/M['m00'])
@@ -74,7 +76,7 @@ while(True):
 
     # Display the resulting frame
     #time.sleep(1)
-    if counter == frequency:
+    if counter == 5:
       print "cups : ", cups
       averagePlay()
       counter = 0
