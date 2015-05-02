@@ -57,8 +57,8 @@ while(True):
 
   frame1 = frame[0:200, 0:ylen]
   frame2 = frame[0:xlen, 0:200]
-  frame3 = frame[xlen-200:xlen, 0:ylen]
-  frame4 = frame[0:xlen, ylen-200:ylen]
+  frame3 = frame[xlen-400:xlen-200, 0:ylen]
+  frame4 = frame[0:xlen, ylen-400:ylen-200]
 
   frame = cv2.medianBlur(frame,5)
   frame1 = cv2.medianBlur(frame1,5)
