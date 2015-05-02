@@ -57,7 +57,7 @@ while(True):
     # Display the resulting frame
     audio.setAllCups(cups)
     time.sleep(5)
-    cv2.imshow('frame',dilation)
+    cv2.imshow('frame1',dilation)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
