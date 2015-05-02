@@ -75,8 +75,6 @@ def play(fname):
       
       stream.stop_stream()  
       stream.close()
-    else:
-      time.sleep(5)
 
 def start(fname):
   thr = threading.Thread(target=play, args=([fname]), kwargs={})
