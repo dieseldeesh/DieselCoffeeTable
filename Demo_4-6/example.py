@@ -3,7 +3,9 @@ import time
 import threading
 import numpy as np
 import sys
-import random
+import math
+N=30
+RADIUS=30
 
 try:
   from OpenGL.GLUT import *
@@ -13,12 +15,10 @@ except:
   print '''
 ERROR: PyOpenGL not installed properly.  
         '''
-shape = 0
+
 tt = pyin.TapTester()
 amp = 10
 fft_block = []
-r,g,b = 0.0,0.0,0.0
-rT, gT, bT = True, False, False
 def listen():
   global amp, fft_block
   while(True):
@@ -34,97 +34,44 @@ def animate():
 def init(): 
    glClearColor (0.0, 0.0, 0.0, 0.0)
    glShadeModel (GL_FLAT)
- 
-def changeColor():
-   global rT,gT,bT,r,g,b, fft_block
-   if not len(fft_block):
-     fftMag = 1.0
-   else:
-     fftMag = abs(random.choice(fft_block))%2.5
-   if (rT):
-     r+=fftMag
-     if (b>0): 
-       b-=5
-     if (b<0): 
-       b=0
-     if (r>255):
-       r-=100
-       gT=True
-       rT=False
-  
-   elif (gT):
-     g += fftMag
-     if (r>0): 
-       r-=5
-     if (r<0):
-      r=0
-     if (g>255):
-       g-=100
-       bT=True
-       gT=False 
-
-   elif (bT) :
-     b += fftMag
-     if (g>0):
-       g-=5
-     if (g<0):
-       g=0
-     if (b>255):
-       b-=100
-       rT=True
-       bT=False
-  
-def shape0():
-   glutWireCube (1.0)
-
-def shape1():
-   glutSolidCube (1.0)
-
-def shape2():
-   glutWireSphere(1.0, 10,10)
-
-def shape3():
-   glutSolidSphere(1.0, 10,10)
 
 def display():
-   global amp, shape
-   
-  
-   changeColor();
+   global amp
    # print "amp: ",amp
    glClear (GL_COLOR_BUFFER_BIT)
+   glColor3f (1.0, 1.0, 1.0)
    glLoadIdentity ()             # clear the matrix 
    # viewing transformation 
-  # glRotatef(3.0, 1.0,1.0,1.0)
-
+   glRotatef(0, 0, 0, amp*100.0 )
    gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
-   scale = amp*10.0
+   scale = amp*5
    glScalef (scale,scale,scale)      # modeling transformation 
-   glColor3f(r*1.0,g*1.0,b*1.0)
+   glColor3ub(255,0,0)
+   #glutWireCube (1.0)
    #glutWireSphere(1.0, 10,10)
 
-   glLineWidth(2.5); 
-   glBegin(GL_LINES);
-   glVertex3f(0.0, 0.0, 0.0);
-   glVertex3f(15, 0, 0);
+   xpts=[]
+   ypts=[]
+   for i in range(0,N):
+       xpts.append(RADIUS*math.sin(2.0*math.pi*i/N))
+       ypts.append(RADIUS*math.cos(2.0*math.pi*i/N))   
 
-   glVertex3f(0.0, 0.0, 0.0);
-   glVertex3f(0,3,15);
-   glEnd();
-   
-   # if amp <.11:
-   #   shape0()
-   # elif amp<.22:
-   #   shape2()
+   glBegin(GL_LINE_STRIP)
+   for i in range(0,N):
+       for j in range(i,N):
+           glVertex2f(xpts[i],ypts[i])
+           glVertex2f(xpts[j],ypts[j])
+   glEnd()
+
    glFlush ()
-
-
 
 def reshape (w, h):
    global amp, idx
    glViewport (0, 0, w, h)
    glMatrixMode (GL_PROJECTION)
    glLoadIdentity ()
+  
+
    glFrustum (-1.0, 1.0, -1.0, 1.0, 1.5, 20.0)
    glMatrixMode (GL_MODELVIEW)
 
