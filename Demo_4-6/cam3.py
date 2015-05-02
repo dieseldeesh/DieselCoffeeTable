@@ -4,6 +4,7 @@ import cv2.cv as cv
 import threading
 import sys
 import audio
+import time
 
 from Tkinter import *
 
@@ -55,6 +56,7 @@ while(True):
     print "cups : ", cups
     # Display the resulting frame
     audio.setAllCups(cups)
+    time.sleep(5)
     cv2.imshow('frame',dilation)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
