@@ -2,9 +2,7 @@ import wave
 import pyaudio
 import threading
 import time
-#!usr/bin/env python  
-#coding=utf-8  
-
+import pygame
 import pyaudio  
 import wave  
 
