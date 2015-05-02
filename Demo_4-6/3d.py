@@ -139,13 +139,13 @@ def keyboard(key, x, y):
 def init_visualizer():
     glutInit(sys.argv)
     glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB)
-    glutInitWindowSize (500, 700)
+    glutInitWindowSize (700, 500)
     glutInitWindowPosition (100, 100)
     glutCreateWindow ('DieselVisualizer')
     init ()
     glutDisplayFunc(display)
     glutReshapeFunc(reshape)
-    glutkeyboardFunc(keyboard)
+    glutKeyboardFunc(keyboard)
     glutIdleFunc(animate)
     glutMainLoop()
 
