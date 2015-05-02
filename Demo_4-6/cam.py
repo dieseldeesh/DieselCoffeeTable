@@ -56,23 +56,25 @@ while(True):
   ylen = len(frame[0])
 
   frame1 = frame[0:200, 0:ylen]
-  frame2 = frame[0:xlen, 0:200]
+  frame2 = frame[0:xlen, 200:400]
   frame3 = frame[xlen-200:xlen, 0:ylen]
-  frame4 = frame[0:xlen, ylen-200:ylen]
+  frame4 = frame[0:xlen, ylen-400:ylen-200]
 
-  frame = cv2.medianBlur(frame,5)
+  #frame = frame[0:xlen, 200:400]
+  #frame = cv2.medianBlur(frame,5)
   frame1 = cv2.medianBlur(frame1,5)
   frame2 = cv2.medianBlur(frame2,5)
   frame3 = cv2.medianBlur(frame3,5)
   frame4 = cv2.medianBlur(frame4,5)
 
-  gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+  #gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
   gray1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
   gray2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
   gray3 = cv2.cvtColor(frame3, cv2.COLOR_BGR2GRAY)
   gray4 = cv2.cvtColor(frame4, cv2.COLOR_BGR2GRAY)
 
-  ret,thresh = cv2.threshold(gray,45,255,1)
+  #ret,thresh = cv2.threshold(gray,45,255,1)
   ret1,thresh1 = cv2.threshold(gray1,45,255,1)
   ret2,thresh2 = cv2.threshold(gray2,45,255,1)
   ret3,thresh3 = cv2.threshold(gray3,45,255,1)
@@ -165,11 +167,11 @@ while(True):
   audio.setAllCups(cups)
 
   #print"Thresh yo ", thresh1
-  #cv2.imshow('whole', thresh)
-  #cv2.imshow('frame1',thresh1)
+  #cv2.imshow('whole', frame)
+  cv2.imshow('frame1',thresh1)
   cv2.imshow('frame2',thresh2)
-  #cv2.imshow('frame3',thresh3)
-  #cv2.imshow('frame4',thresh4)
+  cv2.imshow('frame3',thresh3)
+  cv2.imshow('frame4',thresh4)
   if cv2.waitKey(1) & 0xFF == ord('q'):
     break
 
