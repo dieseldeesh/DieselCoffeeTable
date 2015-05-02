@@ -38,13 +38,13 @@ def start_srv():
 
   while (done == 0):
       # Wait for a connection
-      print >>sys.stderr, 'waiting for a connection'
+      # print >>sys.stderr, 'waiting for a connection'
       connection, client_address = sock.accept()
       try:
-          print >>sys.stderr, 'connection from', client_address
+          # print >>sys.stderr, 'connection from', client_address
           djson = connection.recv(1024)
           data = json.loads(djson)
-          print 'received "%s"' % data
+          # print 'received "%s"' % data
           H_MIN = data["H_MIN"]
           S_MIN = data["S_MIN"]
           V_MIN = data["V_MIN"]
