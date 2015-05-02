@@ -48,9 +48,9 @@ while(True):
           cups[0] = 1
         elif cx > 200 and cx < 700 and cy >= 350:
           cups[1] = 1
-        elif cx < 200:
+        elif cx <= 200:
           cups[2] = 1
-        elif cx > 700:
+        elif cx >= 700:
           cups[3] = 1
 
     # Display the resulting frame
