@@ -46,13 +46,13 @@ def setAllCups(a):
 
 def getCup(fname):
   global cup1, cup2, cup3, cup4
-  if(fname == "test.wav"):
+  if(fname == "../Audio/test.wav"):
     return cup1
-  if(fname == "test1.wav"):
+  if(fname == "../Audio/test1.wav"):
     return cup2
-  if(fname == "test2.wav"):
+  if(fname == "../Audio/test2.wav"):
     return cup3
-  if(fname == "test3.wav"):
+  if(fname == "../Audio/test3.wav"):
     return cup4
 
 def play(fname):
@@ -60,7 +60,7 @@ def play(fname):
   global killAll
   while(not(killAll)): 
     if(getCup(fname)):
-      f = wave.open(r"/Users/anuj/Code/18549/DieselCoffeeTable/Audio/"+fname,"rb")  
+      f = wave.open(r"../Audio/"+fname,"rb")  
 
       stream = p.open(format = p.get_format_from_width(f.getsampwidth()),  
                       channels = f.getnchannels(),  
@@ -85,10 +85,10 @@ def start(fname):
 #start all sounds
 def initAll():
   global t1,t2,t3,t4
-  t1 = start("test.wav")
-  t2 = start("test1.wav")
-  t3 = start("test2.wav")
-  t4 = start("test3.wav")
+  t1 = start("../Audio/test.wav")
+  t2 = start("../Audio/test1.wav")
+  t3 = start("../Audio/test2.wav")
+  t4 = start("../Audio/test3.wav")
 
 def closeAll():
   print "attempting close audio loops..."
