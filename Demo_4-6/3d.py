@@ -18,6 +18,7 @@ shape = 0
 
 tt = pyin.TapTester()
 amp = 10
+SCALAR = 10
 fft_block = []
 r,g,b = 0.0,0.0,0.0
 rT, gT, bT = True, False, False
@@ -79,8 +80,8 @@ def shape(n, r):
     xpts=[]
     ypts=[]
     for i in range(0,n):
-        xpts.append(r*math.sin(n*amp*i/(math.pi)))
-        ypts.append(r*math.cos(n*amp*i/(math.pi))) 
+        xpts.append(r*math.sin(n*amp*i*SCALAR/(math.pi)))
+        ypts.append(r*math.cos(n*amp*i*SCALAR/(math.pi))) 
 
     glBegin(GL_LINES)
     for i in range(0,n):
@@ -109,29 +110,18 @@ def shape(n, r):
         glVertex2f(xpts[i]*1.3,ypts[i]*1.3)
     glEnd()
 
-
-def shape3():
-    glutSolidSphere(1.0, 10,10)
-
 def display():
     global amp, shape
-
 
     changeColor();
     glClear (GL_COLOR_BUFFER_BIT)
     glLoadIdentity ()             # clear the matrix 
-    # glRotatef(3.0, 1.0,1.0,1.0)
-
     gluLookAt (0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
     scale = amp*10.0
     glScalef (scale,scale,scale)      # modeling transformation 
     glColor3f(r*1.0,g*1.0,b*1.0)
-
-
     shape(20, 2)
     glFlush ()
-
-
 
 def reshape (w, h):
     global amp, idx
@@ -146,21 +136,18 @@ def keyboard(key, x, y):
         import sys
         sys.exit(0)
 
-def init_cube():
+def init_visualizer():
     glutInit(sys.argv)
     glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB)
-    glutInitWindowSize (500, 500)
+    glutInitWindowSize (500, 700)
     glutInitWindowPosition (100, 100)
-    glutCreateWindow ('cube')
+    glutCreateWindow ('DieselVisualizer')
     init ()
     glutDisplayFunc(display)
     glutReshapeFunc(reshape)
-    glutKeyboardFunc(keyboard)
+    glutkeyboardFunc(keyboard)
     glutIdleFunc(animate)
     glutMainLoop()
 
-
-
-
-init_cube()
+init_visualizer()
 
