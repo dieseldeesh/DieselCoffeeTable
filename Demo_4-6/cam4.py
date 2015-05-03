@@ -58,7 +58,7 @@ def start_srv():
 thr = threading.Thread(target=start_srv, args=(), kwargs={})
 thr.start()
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(7)
 
 while(True):
     # Capture frame-by-frame

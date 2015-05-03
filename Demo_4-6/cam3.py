@@ -21,8 +21,8 @@ cap = cv2.VideoCapture(0)
 
 while(True):
     # Capture frame-by-frame
-    ret, frame = cap.read()
     cups = [0,0,0,0]
+    ret, frame = cap.read()
     # Our operations on the frame come here
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
@@ -47,18 +47,17 @@ while(True):
           cups[0] = 1
         elif cx > 200 and cx < 700 and cy >= 350:
           cups[1] = 1
-        elif cx < 200:
+        elif cx <= 200:
           cups[2] = 1
-        elif cx > 700:
+        elif cx >= 700:
           cups[3] = 1
 
-    print "cups : ", cups
     # Display the resulting frame
     audio3.setAllCups(cups)
     cv2.imshow('frame',dilation)
+
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-
 
 
 # When everything done, release the capture

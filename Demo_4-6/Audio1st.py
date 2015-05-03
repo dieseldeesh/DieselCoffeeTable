@@ -2,15 +2,14 @@ import wave
 import pyaudio
 import threading
 import time
-#!usr/bin/env python  
-#coding=utf-8  
-
+import pygame
 import pyaudio  
 import wave  
 
 #read audio in 1kb chunks
 chunk = 1024  
 p = pyaudio.PyAudio()  
+pygame.mixer.init()
 #control values for cups
 cup1 = 0
 cup2 = 0
@@ -60,21 +59,8 @@ def play(fname):
   global killAll
   while(not(killAll)): 
     if(getCup(fname)):
-      f = wave.open(r"../Audio/"+fname,"rb")  
-
-      stream = p.open(format = p.get_format_from_width(f.getsampwidth()),  
-                      channels = f.getnchannels(),  
-                      rate = f.getframerate(),  
-                    output = True) 
-      data = f.readframes(chunk)  
-
-      #paly stream  
-      while data != '':  
-          stream.write(data)  
-          data = f.readframes(chunk)  
-      
-      stream.stop_stream()  
-      stream.close()
+      pygame.mixer.music.load("../Audio/"+fname) 
+      pygame.mixer.music.play(0)
 
 def start(fname):
   thr = threading.Thread(target=play, args=([fname]), kwargs={})
