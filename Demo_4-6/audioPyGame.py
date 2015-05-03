@@ -9,7 +9,7 @@ import wave
 #read audio in 1kb chunks
 chunk = 1024  
 p = pyaudio.PyAudio()  
-pygame.mixer.init()
+
 #control values for cups
 cup1 = 0
 cup2 = 0
@@ -20,6 +20,12 @@ t1 = 0
 t2 = 0
 t3 = 0
 t4 = 0
+
+v1 = 0
+v2 = 0
+v3 = 0
+v4 = 0
+
 killAll = 0
 
 def setCup(cupName, val):
@@ -34,12 +40,17 @@ def setCup(cupName, val):
   if(cupName == "4"):
     cup4 = val
 
-def setAllCups(a):
-  global cup1, cup2, cup3, cup4
+def setAllCups(a, v):
+  global cup1, cup2, cup3, cup4, v1, v2, v3, v4
+  print "In SET ALL CUPS"
   cup1 = a[0]
   cup2 = a[1]
   cup3 = a[2]
   cup4 = a[3]
+  v1 = v[0]
+  v2 = v[1]
+  v3 = v[2]
+  v4 = v[3]
 
 
 
@@ -54,16 +65,65 @@ def getCup(fname):
   if(fname == "../Audio/test3.wav"):
     return cup4
 
-def play(fname):
-  #read data 
-  global killAll
-  while(not(killAll)): 
-    if(getCup(fname)):
-      pygame.mixer.music.load("../Audio/"+fname) 
-      pygame.mixer.music.play(0)
+def getVolume (fname):
+  global v1, v2, v3, v4
+  if(fname == "../Audio/test.wav"):
+    return v1
+  if(fname == "../Audio/test1.wav"):
+    return v2
+  if(fname == "../Audio/test2.wav"):
+    return v3
+  if(fname == "../Audio/test3.wav"):
+    return v4
 
-def start(fname):
-  thr = threading.Thread(target=play, args=([fname]), kwargs={})
+def play():
+  #read data 
+  global killAll, cup1, cup2, cup3, cup4, v1, v2, v3, v4
+
+  print "hello inside play?"
+
+  tog1 = 1
+  tog2 = 1
+  tog3 = 1
+  tog4 = 1
+
+  while(not(killAll)):
+    #print "hello inside while and" 
+    length = 0
+    sound = pygame.mixer.Sound('../Audio/test.wav')
+    if(cup1 and tog1):
+      #print "cup1 = ", cup1
+      sound = pygame.mixer.Sound('../Audio/test.wav')
+      sound.set_volume(v1)
+      sound.play()
+      tog1 = 0
+      length = max(length, sound.get_length())
+    if(cup2 and tog2):
+      #print "cup2 = ", cup2
+      sound = pygame.mixer.Sound('../Audio/test1.wav')
+      sound.set_volume(v2)
+      sound.play()
+      tog2 = 0
+      length = max(length, sound.get_length())
+    if(cup3 and tog3):
+      #print "cup3 = ", cup3
+      sound = pygame.mixer.Sound('../Audio/test2.wav')
+      sound.set_volume(v3)
+      sound.play()
+      tog3 = 0
+      length = max(length, sound.get_length())
+    if(cup4 and tog4):
+      #print "cup4 = ", cup4
+      sound = pygame.mixer.Sound('../Audio/test3.wav')
+      sound.set_volume(v4)
+      sound.play()
+      tog4 = 0
+      length = max(length, sound.get_length())
+
+    time.sleep(length)
+
+def start():
+  thr = threading.Thread(target=play, args=(), kwargs={})
   thr.start()
   return thr 
 
@@ -71,10 +131,15 @@ def start(fname):
 #start all sounds
 def initAll():
   global t1,t2,t3,t4
-  t1 = start("../Audio/test.wav")
-  t2 = start("../Audio/test1.wav")
-  t3 = start("../Audio/test2.wav")
-  t4 = start("../Audio/test3.wav")
+  pygame.mixer.init()
+  print "hello inside initall 1"
+  pygame.mixer.pre_init(44100, -16, 2, 2048)
+  pygame.init()
+  print "hello inside install 2?"
+  t1 = start()
+  #t2 = start("../Audio/test1.wav")
+  #t3 = start("../Audio/test2.wav")
+  #t4 = start("../Audio/test3.wav")
 
 def closeAll():
   print "attempting close audio loops..."

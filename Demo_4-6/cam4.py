@@ -75,7 +75,7 @@ while(True):
 
     # Display the resulting frame
     cv2.imshow('frame',dilation)
-    # cv2.imshow('hsv',hsv)
+    cv2.imshow('hsv',hsv)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         done = 1
