@@ -9,7 +9,7 @@ import pyaudio
 import wave  
 
 #read audio in 1kb chunks
-chunk = 1024  
+chunk = 131072  
 p = pyaudio.PyAudio()  
 #control values for cups
 cup1 = 0
@@ -22,6 +22,13 @@ t2 = 0
 t3 = 0
 t4 = 0
 killAll = 0
+
+fnames = ["../Audio/test.wav","../Audio/test1.wav","../Audio/test2.wav","../Audio/test3.wav"]
+formats = []
+channels = []
+rates = []
+data = []
+
 
 def setCup(cupName, val):
   global cup1, cup2, cup3, cup4
@@ -54,25 +61,29 @@ def getCup(fname):
     return cup3
   if(fname == "../Audio/test3.wav"):
     return cup4
+def getIdx(fname):
+  if(fname == "../Audio/test.wav"):
+    return 0
+  if(fname == "../Audio/test1.wav"):
+    return 1
+  if(fname == "../Audio/test2.wav"):
+    return 2
+  if(fname == "../Audio/test3.wav"):
+    return 3
 
 def play(fname):
   #read data 
   global killAll
+  global fnames, formats, channels, rates, data, p
   while(not(killAll)): 
     if(getCup(fname)):
-      f = wave.open(r"../Audio/"+fname,"rb")  
-
-      stream = p.open(format = p.get_format_from_width(f.getsampwidth()),  
-                      channels = f.getnchannels(),  
-                      rate = f.getframerate(),  
-                    output = True) 
-      data = f.readframes(chunk)  
-
-      #paly stream  
-      while data != '':  
-          stream.write(data)  
-          data = f.readframes(chunk)  
-      
+      i = getIdx(fname)
+      stream = p.open(format = formats[i],  
+                    channels = channels[i],  
+                    rate = rates[i],  
+                  output = True) 
+      d = data[i]
+      stream.write(d)  
       stream.stop_stream()  
       stream.close()
 
@@ -85,6 +96,16 @@ def start(fname):
 #start all sounds
 def initAll():
   global t1,t2,t3,t4
+  global fnames, formats, channels, rates, data
+  for i in xrange(len(fnames)):
+    fname = fnames[i]
+    f = wave.open(fname,"rb")
+    formats += [p.get_format_from_width(f.getsampwidth())]
+    channels += [f.getnchannels()]
+    rates += [f.getframerate()]
+    data += [f.readframes(chunk)]
+    f.close()
+
   t1 = start("../Audio/test.wav")
   t2 = start("../Audio/test1.wav")
   t3 = start("../Audio/test2.wav")

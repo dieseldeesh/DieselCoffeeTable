@@ -3,8 +3,7 @@ import cv2
 import cv2.cv as cv
 import threading
 import sys
-import audio
-import time
+import audio3
 
 from Tkinter import *
 
@@ -17,7 +16,7 @@ S_MAX = 279
 V_MAX = 103
 
 done = 0
-audio.initAll()
+audio3.initAll()
 cap = cv2.VideoCapture(0)
 
 while(True):
@@ -54,15 +53,15 @@ while(True):
           cups[3] = 1
 
     # Display the resulting frame
+    audio3.setAllCups(cups)
+    cv2.imshow('frame',dilation)
 
-    audio.setAllCups(cups)
-    cv2.imshow('frame1',dilation)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
 
 # When everything done, release the capture
-audio.closeAll()
+audio3.closeAll()
 cap.release()
 cv2.destroyAllWindows()
 
