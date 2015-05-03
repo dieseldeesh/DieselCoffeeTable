@@ -2,7 +2,6 @@ import wave
 import pyaudio
 import threading
 import time
-import pygame
 import pyaudio  
 import wave  
 
