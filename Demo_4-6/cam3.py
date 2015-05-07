@@ -8,12 +8,12 @@ import audio3
 from Tkinter import *
 
 #0 112 125 84 226 270
-H_MIN = 103
-S_MIN = 125
-V_MIN = 7
-H_MAX = 368
-S_MAX = 279
-V_MAX = 103
+H_MIN = 44
+S_MIN = 44
+V_MIN = 0
+H_MAX = 88
+S_MAX = 140
+V_MAX = 206
 
 done = 0
 audio3.initAll()
@@ -34,12 +34,14 @@ while(True):
     erosion = cv2.erode(frame_threshed,kernel,iterations = 1)
     dilation = cv2.dilate(erosion,kernel,iterations = 1)
 
+    # contours = []
     contours, heirarchy = cv2.findContours(dilation,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
     if(len(contours) > 0):
       cnt = contours[0]
       M = cv2.moments(cnt)
       area = M['m00']
-      if(area > 200):
+      print "area: ",area
+      if(area > 200 and area < 300):
         cx = int(M['m10']/M['m00'])
         cy = int(M['m01']/M['m00'])
         print "center: ",cx,cy
