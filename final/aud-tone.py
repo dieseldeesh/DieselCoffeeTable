@@ -37,20 +37,6 @@ stream1 = p.open(format=p.get_format_from_width(1), # 8bit
                 rate=sample_rate,
                 output=True)
 
-stream2 = p.open(format=p.get_format_from_width(1), # 8bit
-                channels=1, # mono
-                rate=sample_rate,
-                output=True)
-stream3 = p.open(format=p.get_format_from_width(1), # 8bit
-                channels=1, # mono
-                rate=sample_rate,
-                output=True)
-
-stream4 = p.open(format=p.get_format_from_width(1), # 8bit
-                channels=1, # mono
-                rate=sample_rate,
-                output=True)
-
 
 def sine_tone(frequency, duration, sample_rate, stream):
     global volume
@@ -125,16 +111,23 @@ def onClick(event):
 def genFreq(n):
     return 2**((n-49)/12)*440
 
-def getFrequency(num):
-    global frequency1, frequency2, frequency3, frequency4
-    if num == 1:
-        return frequency1
-    elif num == 2: 
-        return frequency2
-    elif num == 3:
-        return frequency3
+def getFrequency():
+    global frequency1, frequency2, frequency3, frequency4, cup1, cup2, cup3, cup4
+    frequency = 0
+    if cup1 == 1:
+        frequency+= frequency1
+    if cup2 == 1: 
+        frequency+= frequency2
+    if cup3 == 1:
+        frequency+= frequency3
+    if cup4 == 1:
+        frequency+= frequency4
+
+    if (getCup()):
+        return frequency/(cup1+cup2+cup3+cup4)
     else:
-        return frequency4
+        return frequency
+
 
 def setFrequency(num, delta):
     global frequency1, frequency2, frequency3, frequency4, pfrequency1, pfrequency2, pfrequency3, pfrequency4
@@ -171,21 +164,14 @@ def genFrequency(cx, cy, num):
         ratio = (abs(cx - 150.0))/10.0
         setFrequency(num, ratio)
 
-def getCup(num):
+def getCup():
     global cup1, cup2, cup3, cup4
-    if num == 1:
-        return cup1
-    elif num == 2: 
-        return cup2
-    elif num == 3:
-        return cup3
-    else: 
-        return cup4
+    return cup1 or cup2 or cup3 or cup4
 
-def play(num, stream):
+def play(stream):
     while(True):
-        if (getCup(num)):
-            f = getFrequency(num)
+        if (getCup()):
+            f = getFrequency()
             sine_tone(
                 f,
                 # see http://www.phy.mtu.edu/~suits/notefreqs.html
@@ -197,15 +183,12 @@ def play(num, stream):
                 stream=stream
             )
 
-def start(num,stream):
-  thr = threading.Thread(target=play, args=([num, stream]), kwargs={})
+def start(stream):
+  thr = threading.Thread(target=play, args=([stream]), kwargs={})
   thr.start()
   return thr 
 
-start(1, stream1)
-start(2, stream2)
-start(3, stream3)
-start(4, stream4)
+start(stream1)
 
 root = tk.Tk()
 root.configure(background='black')
