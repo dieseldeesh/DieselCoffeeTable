@@ -87,40 +87,62 @@ def play():
   tog3 = 1
   tog4 = 1
 
+  sound1 = pygame.mixer.Sound('../Audio/test.wav')
+  sound2 = pygame.mixer.Sound('../Audio/test1.wav')
+  sound3 = pygame.mixer.Sound('../Audio/test2.wav')
+  sound4 = pygame.mixer.Sound('../Audio/test3.wav')
+
   while(not(killAll)):
     #print "hello inside while and" 
     length = 0
-    sound = pygame.mixer.Sound('../Audio/test.wav')
-    if(cup1 and tog1):
+    channel1 = None
+    channel2 = None
+    channel3 = None
+    channel4 = None
+    if(cup1):
       #print "cup1 = ", cup1
       sound = pygame.mixer.Sound('../Audio/test.wav')
       sound.set_volume(v1)
-      sound.play()
-      tog1 = 0
+      channel1 = sound.play()
+      #tog1 = 0
       length = max(length, sound.get_length())
-    if(cup2 and tog2):
+    if(cup2):
       #print "cup2 = ", cup2
       sound = pygame.mixer.Sound('../Audio/test1.wav')
       sound.set_volume(v2)
-      sound.play()
-      tog2 = 0
+      channel2 = sound.play()
+      #tog2 = 0
       length = max(length, sound.get_length())
-    if(cup3 and tog3):
+    if(cup3):
       #print "cup3 = ", cup3
       sound = pygame.mixer.Sound('../Audio/test2.wav')
       sound.set_volume(v3)
-      sound.play()
-      tog3 = 0
+      channel3 = sound.play()
+      #tog3 = 0
       length = max(length, sound.get_length())
-    if(cup4 and tog4):
+    if(cup4):
       #print "cup4 = ", cup4
       sound = pygame.mixer.Sound('../Audio/test3.wav')
       sound.set_volume(v4)
-      sound.play()
-      tog4 = 0
+      channel4 = sound.play()
+      #tog4 = 0
       length = max(length, sound.get_length())
 
-    time.sleep(length)
+      if (channel1 != None):
+        while channel1.get_busy():
+          count = 0
+
+      if (channel2 != None):
+        while channel2.get_busy():
+          count = 0
+
+      if (channel3 != None):
+        while channel3.get_busy():
+          count = 0
+
+      if (channel4 != None):
+        while channel4.get_busy():
+          count = 0
 
 def start():
   thr = threading.Thread(target=play, args=(), kwargs={})
