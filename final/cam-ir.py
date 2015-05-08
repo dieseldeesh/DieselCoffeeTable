@@ -66,8 +66,8 @@ def start_srv():
           # Clean up the connection
           connection.close()
 
-# thr = threading.Thread(target=start_srv, args=(), kwargs={})
-# thr.start()
+thr = threading.Thread(target=start_srv, args=(), kwargs={})
+thr.start()
 
 cap = cv2.VideoCapture(0)
 
@@ -80,35 +80,38 @@ while(True):
     ORANGE_MAX = np.array([H_MAX, S_MAX, V_MAX],np.uint16)
     frame_threshed = cv2.inRange(hsv, ORANGE_MIN, ORANGE_MAX)
 
-    kernel = np.ones((10,10),np.uint8)
-    erosion = cv2.erode(frame_threshed,kernel,iterations = 5)
-    dilation = cv2.dilate(erosion,kernel,iterations = 5)
+    kernel = np.ones((5,5),np.uint8)
+    erosion = cv2.erode(frame_threshed,kernel,iterations = 1)
+    dilation = cv2.dilate(erosion,kernel,iterations = 1)
     tmp = dilation.copy()
 
     # Display the resulting frame
     contours, heirarchy = cv2.findContours(dilation,cv2.RETR_TREE,cv2.CHAIN_APPROX_NONE)
+    if(len(contours) > 0):
+      print "fount contours: ",len(contours)
     for cnt in contours:
       M = cv2.moments(cnt)
       area = M['m00']
       cx = int(M['m10']/M['m00'])
       cy = int(M['m01']/M['m00'])
-
+      img = frame
+      img = cv2.drawContours(img, [cnt], 0, (0,255,0), 3)
       # if(area >= A_MIN and area <= A_MAX):
         #audio code here
 
         # if(trace):
-      img = frame
-      x,y,w,h = cv2.boundingRect(cnt)
-      img = cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
+      # img = frame
+      # x,y,w,h = cv2.boundingRect(cnt)
+      # img = cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
 
-      # (1) create a copy of the original:
-      img = frame
-      overlay = img.copy()
-      # # (2) draw shapes:
-      cv2.circle(overlay, (cx, cy), 12, (0, 255, 0), -1)
-      # # (3) blend with the original:
-      opacity = 0.4
-      cv2.addWeighted(overlay, opacity, img, 1 - opacity, 0, img)
+      # # (1) create a copy of the original:
+      # img = frame
+      # overlay = img.copy()
+      # # # (2) draw shapes:
+      # cv2.circle(overlay, (cx, cy), 12, (0, 255, 0), -1)
+      # # # (3) blend with the original:
+      # opacity = 0.4
+      # cv2.addWeighted(overlay, opacity, img, 1 - opacity, 0, img)
 
 
     cv2.imshow('frame',frame)
@@ -129,5 +132,5 @@ cap.release()
 cv2.destroyAllWindows()
 
 done = 1
-# thr.join()
+thr.join()
 
