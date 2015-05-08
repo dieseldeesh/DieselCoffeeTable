@@ -10,11 +10,11 @@ import time
 pfrequency1 = 130.82
 pfrequency2 = 329.63
 pfrequency3 = 659.26
-pfrequency4 = 783.99
+pfrequency4 = 1046.5
 frequency1 = 130.82
 frequency2 = 329.63
 frequency3 = 659.26
-frequency4 = 783.99
+frequency4 = 1046.5
 volume = 1
 cup1 = 0
 cup2 = 0
