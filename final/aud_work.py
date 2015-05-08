@@ -21,7 +21,6 @@ cup2 = 0
 cup3 = 0
 cup4 = 0
 
-
 try:
     from itertools import izip
 except ImportError: # Python 3
@@ -37,12 +36,13 @@ stream1 = p.open(format=p.get_format_from_width(1), # 8bit
                 rate=sample_rate,
                 output=True)
 
+bytebufs = ''
 
-def sine_tone(frequency, duration, sample_rate, stream):
-    global volume
-    # print "volume ", volume
-    # print "frequency", frequency
+def gen_Sine_Tone(frequency, duration, sample_rate):
+    global bytebufs, volume
 
+    duration = 3
+    sample_rate = 22050
     n_samples = int(sample_rate * duration)
     restframes = n_samples % sample_rate
 
@@ -50,19 +50,40 @@ def sine_tone(frequency, duration, sample_rate, stream):
     s = lambda t: volume * math.sin(2 * math.pi * frequency * t / sample_rate)
     samples = (int(s(t) * 0x7f + 0x80) for t in xrange(n_samples))
 
+    bytebufsTemp = ""
     for buf in izip(*[samples]*sample_rate):
         bytebuf = bytes(bytearray(buf))
-        #print "     bytes written", bytebuf # write several samples at a time
-        stream.write(bytebuf)
+        bytebufsTemp+= bytebuf
 
+    bytebufs = bytebufsTemp
+
+
+
+
+def sine_tone(frequency, duration, sample_rate, stream):
+    global volume, bytebufs
+    # # print "volume ", volume
+    # # print "frequency", frequency
+
+    # n_samples = int(sample_rate * duration)
+    # restframes = n_samples % sample_rate
+
+ 
+    # s = lambda t: volume * math.sin(2 * math.pi * frequency * t / sample_rate)
+    # samples = (int(s(t) * 0x7f + 0x80) for t in xrange(n_samples))
+
+    # for buf in izip(*[samples]*sample_rate):
+    #     bytebuf = bytes(bytearray(buf))
+    #     #print "     bytes written", bytebuf # write several samples at a time
+    #     #stream.write(bytebuf)
+    while True:
+        stream.write(bytebufs)
 #    # fill remainder of frameset with silence
 #    stream.write(b'\x80' * restframes)
 
 def onKeyPress(event):
     global frequency1, frequency2, frequency3, frequency4, cup1, cup2, cup3, cup4, volume
     text.insert('end', 'You pressed %s\n' % (event.char, ))
-    if (event.char == 'a'):
-        volume = 0.5
     if (event.char == 'b'):
         volume = 1
     if (event.char == 'c'):
@@ -91,6 +112,9 @@ def onKeyPress(event):
             frequency1 = genFreq(x+50)
         for x in xrange(7):
             frequency1 = genFreq(56-x)
+            
+    f = getFrequency()
+    gen_Sine_Tone(f, 3, 22050)
 
 def onClick(event):
     text.insert('end', 'x= %d y = %d\n' %(event.x, event.y))
@@ -106,6 +130,8 @@ def onClick(event):
     elif cx >= 700:
         num = 3
     genFrequency(cx, cy, num)
+    f = getFrequency()
+    gen_Sine_Tone(f, 3, 22050)
 
 
 def genFreq(n):
@@ -176,12 +202,13 @@ def play(stream):
                 f,
                 # see http://www.phy.mtu.edu/~suits/notefreqs.html
                 #frequency, # Hz, waves per second A4
-                duration=3, # seconds to play sound
+                duration=1, # seconds to play sound
                 #volume=vol, # 0..1 how loud it is
                 # see http://en.wikipedia.org/wiki/Bit_rate#Audio
                 sample_rate=22050, # number of samples per second
                 stream=stream
             )
+
 
 def start(stream):
   thr = threading.Thread(target=play, args=([stream]), kwargs={})
@@ -201,6 +228,4 @@ root.mainloop()
 
 stream1.stop_stream()
 stream1.close()
-stream2.stop_stream()
-stream2.close()
 p.terminate()
